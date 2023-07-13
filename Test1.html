@@ -7,7 +7,7 @@
   <h1></h1>
   
   <select id="dropdown">
-    <option value="">Test</option>
+    <option value=""></option>
   </select>
   
   <script>
@@ -31,10 +31,11 @@
      for (let i = 0; i < lines.length; i++) {
                         const cells = lines[i].split(',');
                         const value = cells[0].trim();
-
-                        const option = document.createElement('option');
-                        option.text = value;
-                        dropdown.add(option);
+                        if (!Array.from(dropdown.options).some(option => option.value === value.toString())) {
+                          const option = document.createElement('option');
+                          option.text = value;
+                          dropdown.add(option);
+                        }
                     }
     }
     
