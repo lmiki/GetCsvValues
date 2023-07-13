@@ -61,7 +61,7 @@
     
     readCSV(csvFile, populateManufacturerDropdown);
     var dropdownManufacturer = document.getElementById("dropdownManufacturer");
-    dropdownManufacturer.addEventListener('change', populateModelDropdown);
+    dropdownManufacturer.addEventListener('change', populateModelDropdown(csvFile));
   </script>
 </body>
 </html>
