@@ -6,12 +6,13 @@
 <body>
   <h1></h1>
   
-  <select id="dropdown">
-    <option value=""></option>
+  <select id="dropdownManufacturer">
+  </select>
+  <select id="dropdownModel">
   </select>
   
+  
   <script>
-    // Function to read data from CSV file
     function readCSV(file, callback) {
       var xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function() {
@@ -23,12 +24,11 @@
       xhr.send();
     }
     
-    // Function to populate dropdown with CSV data
-    function populateDropdown(csvData) {
+    function populateManufacturerDropdown(csvData) {
       var lines = csvData.split("\n");
-      var dropdown = document.getElementById("dropdown");
+      var dropdown = document.getElementById("dropdownManufacturer");
       
-     for (let i = 1; i < lines.length; i++) {
+      for (let i = 1; i < lines.length; i++) {
                         const cells = lines[i].split(',');
                         const value = cells[0].trim();
                         if (!Array.from(dropdown.options).some(option => option.value === value.toString())) {
@@ -36,14 +36,32 @@
                           option.text = value;
                           dropdown.add(option);
                         }
-                    }
+      }
+    }
+
+    function populateModelDropdown(csvData) {
+      var lines = csvData.split("\n");
+      var FirstDropdown = document.getElementById("dropdownManufacturer");
+      var SecondDropdown = document.getElementById("dropdownModel");
+      const selectedOption = FirstDropdown.value;
+
+      for (let i = 1; i < lines.length; i++) {
+                        const cells = lines[i].split(',');
+                        const Mainvalue = cells[0].trim();
+                        const value = cells[1].trim();
+                        if (Mainvalue === selectedOption.toString())) {
+                          const option = document.createElement('option');
+                          option.text = value;
+                          dropdown.add(option);
+                        }
+      }
     }
     
-    // Specify the path to your CSV file
     var csvFile = "./ExampleCSV_Derya.csv";
     
-    // Read the CSV file and populate the dropdown
-    readCSV(csvFile, populateDropdown);
+    readCSV(csvFile, populateManufacturerDropdown);
+    var dropdownManufacturer = document.getElementById("dropdownManufacturer");
+    dropdownManufacturer.addEventListener('change', populateModelDropdown);
   </script>
 </body>
 </html>
