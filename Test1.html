@@ -28,7 +28,7 @@
       var lines = csvData.split("\n");
       var dropdown = document.getElementById("dropdown");
       
-     for (let i = 0; i < lines.length; i++) {
+     for (let i = 1; i < lines.length; i++) {
                         const cells = lines[i].split(',');
                         const value = cells[0].trim();
                         if (!Array.from(dropdown.options).some(option => option.value === value.toString())) {
