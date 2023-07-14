@@ -87,7 +87,7 @@
       .filter(row => row[1] === selectedValue)
       .map(row => row[2]);
     const uniqueModelValues = [...new Set(filteredValues)];
-    populateDropdown(dropdownModel, uniqueModelValues);
+    populateDropdown(dropdownMark, uniqueModelValues);
   });
 });
 
