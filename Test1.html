@@ -7,10 +7,8 @@
   <h1></h1>
   
   <select id="dropdownManufacturer">
-    <option></option>
   </select>
   <select id="dropdownModel">
-    <option></option>
   </select>
   
   
@@ -63,7 +61,17 @@
     
     readCSV(csvFile, populateManufacturerDropdown);
     var dropdownManufacturer = document.getElementById("dropdownManufacturer");
-    dropdownManufacturer.addEventListener('change', readCSV(csvFile, populateModelDropdown));
+    var dropdownModel = document.getElementById("dropdownModel");
+    //dropdownManufacturer.addEventListener('change', readCSV(csvFile, populateModelDropdown));
+    dropdownManufacturer.addEventListener('change', function() {
+    //const selectedValue = dropdownManufacturer.value;
+    //const filteredValues = data
+      //.filter(row => row[0] === selectedValue)
+      //.map(row => row[1]);
+
+    //populateDropdown(secondDropdown, filteredValues);
+      readCSV(csvFile, populateManufacturerDropdown);
+  });
   </script>
 </body>
 </html>
