@@ -51,7 +51,7 @@
   loadCSV('./ExampleCSV_Derya.csv', function(csv) {
   const data = parseCSV(csv);
 
-  const firstColumn = data.map(row => row[0]);
+  const firstColumn = data.map(row => row[1]);
   const uniqueValues = [...new Set(firstColumn)];
   populateDropdown(dropdownManufacturer, uniqueValues);
 
@@ -61,7 +61,7 @@
       .filter(row => row[0] === selectedValue)
       .map(row => row[1]);
 
-    populateDropdown(uniqueValues, filteredValues);
+    populateDropdown(dropdownModel, filteredValues);
   });
 });
 
