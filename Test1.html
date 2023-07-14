@@ -31,7 +31,7 @@
 
   function parseCSV(csv) {
     const lines = csv.split('\n');
-    const data = lines.map(line => line.split(','));
+    const data = lines.slice(1).map(line => line.split(','));
     return data;
   }
 
