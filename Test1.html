@@ -5,12 +5,26 @@
 </head>
 <body>
   <h1></h1>
-  
-  <select id="dropdownManufacturer">
-  </select>
-  <select id="dropdownModel">
-  </select>
-  
+  <table>
+  <tr>
+    <td><label for="dropdownManufacturer">Manufacturer:</label></td>
+    <td>
+      <select id="dropdownManufacturer">
+        <option></option>
+      </select>
+    </td>
+    <td><label for="dropdownModel">Model:</label></td>
+    <td>
+      <select id="dropdownModel">
+      </select>
+    </td>
+     <td><label for="dropdownMark">Mark:</label></td>
+    <td>
+      <select id="dropdownMark">
+      </select>
+    </td>
+  </tr>
+</table>
   
   <script>
     
@@ -47,6 +61,7 @@
 
   const dropdownManufacturer = document.getElementById("dropdownManufacturer");
   const dropdownModel = document.getElementById("dropdownModel");
+  const dropdownMark = document.getElementById("dropdownMark");
 
   loadCSV('./ExampleCSV_Derya.csv', function(csv) {
   const data = parseCSV(csv);
@@ -62,6 +77,15 @@
       .map(row => row[1]);
 
     populateDropdown(dropdownModel, filteredValues);
+  });
+
+  dropdownModel.addEventListener('change', function() {
+    const selectedValue = dropdownModel.value;
+    const filteredValues = data
+      .filter(row => row[0] === selectedValue)
+      .map(row => row[1]);
+
+    populateDropdown(dropdownMark, filteredValues);
   });
 });
 
