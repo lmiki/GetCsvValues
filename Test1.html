@@ -10,14 +10,16 @@
     <td><label for="dropdownManufacturer">Manufacturer:</label></td>
     <td>
       <select id="dropdownManufacturer">
-        <option></option>
+        <option> </option>
       </select>
     </td>
+    <td></td>
     <td><label for="dropdownModel">Model:</label></td>
     <td>
       <select id="dropdownModel">
       </select>
     </td>
+    <td></td>
      <td><label for="dropdownMark">Mark:</label></td>
     <td>
       <select id="dropdownMark">
@@ -82,8 +84,8 @@
   dropdownModel.addEventListener('change', function() {
     const selectedValue = dropdownModel.value;
     const filteredValues = data
-      .filter(row => row[0] === selectedValue)
-      .map(row => row[1]);
+      .filter(row => row[1] === selectedValue)
+      .map(row => row[2]);
 
     populateDropdown(dropdownMark, filteredValues);
   });
