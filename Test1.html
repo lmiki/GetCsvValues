@@ -13,65 +13,58 @@
   
   
   <script>
-    function readCSV(file, callback) {
-      var xhr = new XMLHttpRequest();
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-          callback(xhr.responseText);
-        }
-      };
-      xhr.open("GET", file, true);
-      xhr.send();
-    }
     
-    function populateManufacturerDropdown(csvData) {
-      var lines = csvData.split("\n");
-      var dropdown = document.getElementById("dropdownManufacturer");
-      
-      for (let i = 1; i < lines.length; i++) {
-                        const cells = lines[i].split(',');
-                        const value = cells[0].trim();
-                        if (!Array.from(dropdown.options).some(option => option.value === value.toString())) {
-                          const option = document.createElement('option');
-                          option.text = value;
-                          dropdown.add(option);
-                        }
+   function loadCSV(file, callback) {
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        callback(xhr.responseText);
+      } else {
+          console.error('Failed to load CSV file.');
       }
-    }
+     }
+    };
+    xhr.open('GET', file, true);
+    xhr.send();
+  }
 
-    function populateModelDropdown(csvData) {
-      var lines = csvData.split("\n");
-      var FirstDropdown = document.getElementById("dropdownManufacturer");
-      var SecondDropdown = document.getElementById("dropdownModel");
-      const selectedOption = FirstDropdown.value;
+  function parseCSV(csv) {
+    const lines = csv.split('\n');
+    const data = lines.map(line => line.split(','));
+    return data;
+  }
 
-      for (let i = 1; i < lines.length; i++) {
-                        const cells = lines[i].split(',');
-                        const Mainvalue = cells[0].trim();
-                        const value = cells[1].trim();
-                        if (Mainvalue === selectedOption.toString()) {
-                          const option = document.createElement('option');
-                          option.text = value;
-                          SecondDropdown.add(option);
-                        }
-      }
-    }
-    
-    var csvFile = "./ExampleCSV_Derya.csv";
-    
-    readCSV(csvFile, populateManufacturerDropdown);
-    var dropdownManufacturer = document.getElementById("dropdownManufacturer");
-    var dropdownModel = document.getElementById("dropdownModel");
-    //dropdownManufacturer.addEventListener('change', readCSV(csvFile, populateModelDropdown));
-    dropdownManufacturer.addEventListener('change', function() {
-    //const selectedValue = dropdownManufacturer.value;
-    //const filteredValues = data
-      //.filter(row => row[0] === selectedValue)
-      //.map(row => row[1]);
+  function populateDropdown(dropdown, options) {
+    dropdown.innerHTML = '';
+    options.forEach(option => {
+      const optionElem = document.createElement('option');
+      optionElem.value = option;
+      optionElem.text = option;
+      dropdown.appendChild(optionElem);
+    });
+  }
 
-    //populateDropdown(secondDropdown, filteredValues);
-      readCSV(csvFile, populateManufacturerDropdown);
+  const dropdownManufacturer = document.getElementById("dropdownManufacturer");
+  const dropdownModel = document.getElementById("dropdownModel");
+
+  loadCSV('./ExampleCSV_Derya.csv', function(csv) {
+  const data = parseCSV(csv);
+
+  const firstColumn = data.map(row => row[0]);
+  const uniqueValues = [...new Set(firstColumn)];
+  populateDropdown(dropdownManufacturer, uniqueValues);
+
+  dropdownManufacturer.addEventListener('change', function() {
+    const selectedValue = dropdownManufacturer.value;
+    const filteredValues = data
+      .filter(row => row[0] === selectedValue)
+      .map(row => row[1]);
+
+    populateDropdown(uniqueValues, filteredValues);
   });
-  </script>
+});
+
+</script>
 </body>
 </html>
