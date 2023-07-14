@@ -77,8 +77,8 @@
     const filteredValues = data
       .filter(row => row[0] === selectedValue)
       .map(row => row[1]);
-
-    populateDropdown(dropdownModel, filteredValues);
+    const uniqueManufacturerValues = [...new Set(filteredValues)];
+    populateDropdown(dropdownModel, uniqueManufacturerValues);
   });
 
   dropdownModel.addEventListener('change', function() {
@@ -86,8 +86,8 @@
     const filteredValues = data
       .filter(row => row[1] === selectedValue)
       .map(row => row[2]);
-
-    populateDropdown(dropdownMark, filteredValues);
+    const uniqueModelValues = [...new Set(filteredValues)];
+    populateDropdown(dropdownModel, uniqueModelValues);
   });
 });
 
