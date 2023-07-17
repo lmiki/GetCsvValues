@@ -97,7 +97,7 @@
     var csvLink = document.getElementById("csvLink");
     if(selectedValue != '' && selectedValue !='NA'){
       const filteredValues = data
-      .filter(function(row) {row[1] === dropdownModel.value && row[2] === selectedValue)
+      .filter(function(row){ return {row[1] === dropdownModel.value && row[2] === selectedValue) });
       .map(row => row[3]);
       const linkValues = [...new Set(filteredValues)];
       csvLink.href = linkValues[0];
