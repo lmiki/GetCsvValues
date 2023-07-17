@@ -101,10 +101,10 @@
       .map(row => row[3]);
       const linkValues = [...new Set(filteredValues)];
       csvLink.href = linkValues[0];
-      hiddenLink.style.display = "inline";
+      csvLink.style.display = "inline";
     }
     else{
-      hiddenLink.style.display = "none";
+      csvLink.style.display = "none";
     }
   });
     
