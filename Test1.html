@@ -25,6 +25,8 @@
       <select id="dropdownMark">
       </select>
     </td>
+     <td></td>
+    <td><a id="csvLink" style="display: none;">Link to CSV file</a>
   </tr>
 </table>
   
@@ -89,6 +91,23 @@
     const uniqueModelValues = [...new Set(filteredValues)];
     populateDropdown(dropdownMark, uniqueModelValues);
   });
+
+  dropdownMark.addEventListener('change', function() {
+    const selectedValue = dropdownMark.value;
+    var csvLink = document.getElementById("csvLink");
+    if(selectedValue != '' && selectedValue !='NA'){
+      const filteredValues = data
+      .filter(row => row[2] === selectedValue)
+      .map(row => row[3]);
+      const linkValues = [...new Set(filteredValues)];
+      csvLink.href = linkValues[0];
+      hiddenLink.style.display = "inline";
+    }
+    else{
+      hiddenLink.style.display = "none";
+    }
+  });
+    
 });
 
 </script>
