@@ -165,7 +165,9 @@ function createGraph(data) {
       csvLink.href = linkValues[0];
       if(linkValues[0] != ''){
         csvLink.style.display = "inline";
-
+      if(linkValues[0].indexOf(".csv") == -1){
+        linkValues[0] = linkValues[0] + ".csv";
+      }
         loadCSV(linkValues[0], function(csv) {
         const GraphData = parseCSVForGraph(csv);
         createGraph(GraphData);
