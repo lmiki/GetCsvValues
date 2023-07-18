@@ -2,6 +2,7 @@
 <html>
 <head>
   <title></title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <h1></h1>
@@ -29,9 +30,10 @@
     <td><a id="csvLink" style="display: none;">Link to CSV file</a>
   </tr>
 </table>
+<canvas id="myChart"></canvas>
+<script src="script.js"></script>  
   
   <script>
-    
    function loadCSV(file, callback) {
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
@@ -52,6 +54,67 @@
     const data = lines.slice(1).map(line => line.split(','));
     return data;
   }
+
+  function parseCSVForGraph(csv) {
+  const lines = csv.split("\n");
+  const data = {
+    wavelength: [],
+    red: [],
+    green: [],
+    blue: []
+  };
+
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (line) {
+      const parts = line.split(",");
+      data.wavelength.push(parts[0]);
+      data.red.push(parseFloat(parts[1]));
+      data.green.push(parseFloat(parts[2]));
+      data.blue.push(parseFloat(parts[3]));
+    }
+  }
+
+  return data;
+}
+
+function createGraph(data) {
+  const ctx = document.getElementById("myChart").getContext("2d");
+  new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: data.wavelength,
+      datasets: [
+        {
+          label: "red",
+          data: data.red,
+          borderColor: "rgba(0, 123, 255, 1)",
+          fill: false
+        },
+        {
+          label: "green",
+          data: data.green,
+          borderColor: "rgba(255, 0, 0, 1)",
+          fill: false
+        },
+        {
+          label: "blue",
+          data: data.blue,
+          borderColor: "rgba(0, 255, 0, 1)",
+          fill: false
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+}
 
   function populateDropdown(dropdown, options) {
     dropdown.innerHTML = '';
@@ -95,7 +158,7 @@
   dropdownMark.addEventListener('change', function() {
     const selectedValue = dropdownMark.value;
     var csvLink = document.getElementById("csvLink");
-    if(selectedValue != '' && selectedValue !='NA'){
+    if(selectedValue != ''){
       const filteredValues = data
       .filter(row => row[1] === dropdownModel.value)
       .filter(row => row[2] === selectedValue)
@@ -104,7 +167,14 @@
       csvLink.href = linkValues[0];
       if(linkValues[0] != ''){
         csvLink.style.display = "inline";
+
+        loadCSV(linkValues[0], function(csv) {
+        const GraphData = parseCSVForGraph(csv);
+        createGraph(GraphData);
       }
+      else{
+      csvLink.style.display = "none";
+    }
     }
     else{
       csvLink.style.display = "none";
