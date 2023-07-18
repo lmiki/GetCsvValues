@@ -169,7 +169,7 @@ function createGraph(data) {
         loadCSV(linkValues[0], function(csv) {
         const GraphData = parseCSVForGraph(csv);
         createGraph(GraphData);
-       }
+       });
       }
       else{
       csvLink.style.display = "none";
